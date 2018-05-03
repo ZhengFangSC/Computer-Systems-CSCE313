@@ -1,0 +1,24 @@
+echo Here starts our shell...
+echo -e "<<<<< This message contains a line feed >>>>>\n"
+echo "<<<<< Start to exercise pipe >>>>>"
+echo "<<<<< 1 pipe >>>>>"
+ps -a | head -5
+echo "<<<<< 2 pipes >>>>>"
+ps -a | awk '/pts\/[0-9]/{print $1}' | tail -5
+echo "<<<<< 3 pipes >>>>>"
+ls -l /proc/sys | awk '{print $9}' | sort -r | head -5
+echo "<<<<< Background process 1 >>>>>"
+dd if=/dev/zero of=/dev/null bs=1024 count=10485760 &
+echo "<<<<< Background process 2 >>>>>"
+dd if=/dev/zero of=/dev/null bs=1024 count=10485760 &
+echo "<<<<< IO redirection >>>>>"
+pwd > pwd.txt
+mv pwd.txt newpwd.txt
+cd /home/ugrads/
+pwd
+cd -
+rm newpwd.txt
+jobs
+sleep 10
+echo "<<<<< Optional... >>>>>"
+cat /proc/$(ps|grep bash|head -1|awk '{print $1}')/status
